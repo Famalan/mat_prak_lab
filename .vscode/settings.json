@@ -4,7 +4,8 @@
         "stdbool.h": "c",
         "__locale": "c",
         "functional": "c",
-        "bitset": "c"
+        "bitset": "c",
+        "lab12.h": "c"
     },
     "cmake.sourceDirectory": "/Users/vladimirmarkov/repos/mat_prak_lab/lab01"
 }

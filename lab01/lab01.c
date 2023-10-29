@@ -86,7 +86,7 @@ status_code a_function(int number, int *result)
     /* S_n = (2 + (n - 1)) * (n / 2)*/
     int right_factor = number / 2;
     int left_factor = 2 + number - 1;
-
+    if (number > INT_MAX || number < INT_MIN)
     {
         result = NULL;
         return CODE_OVERFLOW;

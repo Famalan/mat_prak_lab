@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
     int a = atoi(argv[1]);
     int b = atoi(argv[2]);
     srand(time(NULL));
-    int const size = 128;
+    int const size = 10;
     int arr[size];
     fill_array(arr, size, a, b);
     printf("Original array: ");
@@ -22,6 +22,5 @@ int main(int argc, char *argv[])
     swap_min_max(arr, size);
     printf("Modified array: ");
     print_array(arr, size);
-
     return 0;
 }
