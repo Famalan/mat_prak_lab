@@ -4,126 +4,126 @@
 #include <limits.h>
 #include <stdbool.h>
 
-enum FactorialStatusCode
+enum factorial_status_code
 {
     FACTORIAL_OK,
     FACTORIAL_OVERFLOW,
     FACTORIAL_INVALID_PARAMETER
 };
 
-enum PrimeCheckStatusCode
+enum is_simple_status_code
 {
-    PRIME_YES,
-    PRIME_NO,
-    PRIME_INVALID_PARAMETER
+    ISSC_YES,
+    ISSC_NO,
+    ISSC_INVALID_PARAMETER
 };
 
-enum RangeSumStatusCode
+enum range_sum_status_code
 {
-    RANGESUM_OK,
-    RANGESUM_OVERFLOW,
-    RANGESUM_INVALID_PARAMETER
+    RSSC_OK,
+    RSSC_OVERFLOW,
+    RSSC_INVALID_PARAMETER
 };
 
-enum FactorialStatusCode factorial(int number, long *factorial_result)
+enum factorial_status_code factorial(int num, long *result)
 {
-    if (number < 0)
+    if (num < 0)
     {
         return FACTORIAL_INVALID_PARAMETER;
     }
-    if (number == 0 || number == 1)
+    if (num == 0 || num == 1)
     {
-        *factorial_result = 1;
+        *result = 1;
         return FACTORIAL_OK;
     }
-    *factorial_result = 1;
-    long previous_result = 1;
-    for (int multiple = 2; multiple <= number; ++multiple)
+    *result = 1;
+    long previous = 1;
+    for (int i = 2; i <= num; ++i)
     {
-        *factorial_result *= multiple;
-        if (*factorial_result < previous_result)
+        *result *= i;
+        if (*result < previous)
         {
             return FACTORIAL_OVERFLOW;
         }
-        previous_result = *factorial_result;
+        previous = *result;
     }
     return FACTORIAL_OK;
 }
 
-enum PrimeCheckStatusCode is_simple(int number)
+enum is_simple_status_code is_simple(int num)
 {
-    if (number <= 1)
+    if (num <= 1)
     {
-        return PRIME_INVALID_PARAMETER;
+        return ISSC_INVALID_PARAMETER;
     }
-    if (number == 2)
+    if (num == 2)
     {
-        return PRIME_YES;
+        return ISSC_YES;
     }
-    for (int multiple = 2; multiple * multiple <= number; ++multiple)
+    for (int i = 2; i * i <= num; ++i)
     {
-        if (number % multiple == 0)
-            return PRIME_NO;
+        if (num % i == 0)
+            return ISSC_NO;
     }
-    return PRIME_YES;
+    return ISSC_YES;
 }
 
-void split_num(const char *number_string)
+void split_num(const char *num_str)
 {
-    if (number_string[0] == '0' && number_string[1] == '\0')
+    if (num_str[0] == '0' && num_str[1] == '\0')
     {
         printf("0\n");
         return;
     }
 
-    int leading_zeros_index = 0;
-    while (number_string[leading_zeros_index] == '0')
-        ++leading_zeros_index;
-    if (number_string[0] == '-')
-        ++leading_zeros_index;
+    int i = 0;
+    while (num_str[i] == '0')
+        ++i;
+    if (num_str[0] == '-')
+        ++i;
 
-    for (int digit_index = leading_zeros_index; digit_index < strlen(number_string); ++digit_index)
+    for (int j = i; j < strlen(num_str); ++j)
     {
-        printf("%c ", number_string[digit_index]);
+        printf("%c ", num_str[j]);
     }
     printf("\n");
 }
 
-enum RangeSumStatusCode range_sum(int number, long *factorial_result)
+enum range_sum_status_code range_sum(int num, long *result)
 {
-    if (number <= 0)
-        return RANGESUM_INVALID_PARAMETER;
-    double half_plus_half = number * 0.5 + 0.5;
-    long range_end = number;
-    if (half_plus_half > LONG_MAX / range_end)
+    if (num <= 0)
+        return RSSC_INVALID_PARAMETER;
+    double a = num * 0.5 + 0.5;
+    long b = num;
+    if (a > LONG_MAX / b)
     {
-        return RANGESUM_OVERFLOW;
+        return RSSC_OVERFLOW;
     }
-    *factorial_result = half_plus_half * range_end;
-    return RANGESUM_OK;
+    *result = a * b;
+    return RSSC_OK;
 }
 
-void multiples_nums(int number, bool *multiples_found)
+void multiples_nums(int num, bool *is_found)
 {
-    *multiples_found = false;
-    for (int multiple = number; multiple <= 100; multiple += number)
+    *is_found = false;
+    for (int i = num; i <= 100; i += num)
     {
-        *multiples_found = true;
-        printf("%d ", multiple);
+        *is_found = true;
+        printf("%d ", i);
     }
-    if (*multiples_found)
+    if (*is_found)
         printf("\n");
 }
 
-void degree_table(int number)
+void degree_table(int num)
 {
-    for (int degree_base = 1; degree_base <= 10; ++degree_base)
+    for (int base = 1; base <= 10; ++base)
     {
-        long long multiple = 1;
-        for (int degree = 1; degree <= number; ++degree)
+        long long result = 1;
+        for (int degree = 1; degree <= num; ++degree)
         {
-            multiple *= degree_base;
-            printf("%11lld ", multiple);
+            result *= base;
+            printf("%11lld ", result);
         }
         printf("\n");
     }
@@ -137,11 +137,11 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    for (int leading_zeros_index = 0; leading_zeros_index < strlen(argv[2]); ++leading_zeros_index)
+    for (int i = 0; i < strlen(argv[2]); ++i)
     {
-        if (leading_zeros_index == 0 && argv[2][0] == '-')
+        if (i == 0 && argv[2][0] == '-')
             continue;
-        if ((int)argv[2][leading_zeros_index] < 48 || (int)argv[2][leading_zeros_index] > 57)
+        if ((int)argv[2][i] < 48 || (int)argv[2][i] > 57)
         {
             printf("argument must have int type!\n");
             return 1;
@@ -156,15 +156,15 @@ int main(int argc, char *argv[])
 
     int input_num = atoi(argv[2]);
 
-    long factorial_result;
-    bool multiples_found;
+    long result;
+    bool is_found;
 
     switch (argv[1][1])
     {
     case 'e':
         if (input_num > 10 || input_num < 1)
         {
-            printf("invalid parametr detected!\n");
+            printf("invalid parameter detected!\n");
             break;
         }
         degree_table(input_num);
@@ -173,27 +173,27 @@ int main(int argc, char *argv[])
     case 'h':
         if (input_num <= 0)
         {
-            printf("invalid parametr detected!\n");
+            printf("invalid parameter detected!\n");
             break;
         }
-        multiples_nums(input_num, &multiples_found);
-        if (!multiples_found)
+        multiples_nums(input_num, &is_found);
+        if (!is_found)
         {
             printf("no numbers found\n");
         }
         break;
 
-    case 'half_plus_half':
-        switch (range_sum(input_num, &factorial_result))
+    case 'a':
+        switch (range_sum(input_num, &result))
         {
-        case RANGESUM_OK:
-            printf("%ld\n", factorial_result);
+        case RSSC_OK:
+            printf("%ld\n", result);
             break;
-        case RANGESUM_OVERFLOW:
+        case RSSC_OVERFLOW:
             printf("overflow detected!\n");
             break;
-        case RANGESUM_INVALID_PARAMETER:
-            printf("invalid parametr detected!\n");
+        case RSSC_INVALID_PARAMETER:
+            printf("invalid parameter detected!\n");
             break;
         }
         break;
@@ -205,29 +205,29 @@ int main(int argc, char *argv[])
     case 'p':
         switch (is_simple(input_num))
         {
-        case PRIME_YES:
+        case ISSC_YES:
             printf("%d is simple\n", input_num);
             break;
-        case PRIME_NO:
+        case ISSC_NO:
             printf("%d is composite\n", input_num);
             break;
-        case PRIME_INVALID_PARAMETER:
-            printf("invalid parametr detected!\n");
+        case ISSC_INVALID_PARAMETER:
+            printf("invalid parameter detected!\n");
             break;
         }
         break;
 
     case 'f':
-        switch (factorial(input_num, &factorial_result))
+        switch (factorial(input_num, &result))
         {
         case FACTORIAL_OK:
-            printf("%d! = %ld\n", input_num, factorial_result);
+            printf("%d! = %ld\n", input_num, result);
             break;
         case FACTORIAL_OVERFLOW:
             printf("overflow detected!\n");
             break;
         case FACTORIAL_INVALID_PARAMETER:
-            printf("invalid parametr detected!\n");
+            printf("invalid parameter detected!\n");
             break;
         }
         break;

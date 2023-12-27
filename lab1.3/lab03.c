@@ -6,31 +6,31 @@
 
 enum solve_equation_status_code
 {
-    two_rootes,
-    one_root,
-    no_rootes,
-    invalid_param
+    TWO_ROOTS,
+    ONE_ROOT,
+    NO_ROOTS,
+    INVALID_PARAM
 };
 
 enum solve_equation_status_code solve_equation(double a, double b, double c, double *x_fst, double *x_snd)
 {
     if (a == 0)
-        return invalid_param;
+        return INVALID_PARAM;
     double discriminant = (b * b) - (4 * a * c);
     double discriminant_sqrt = sqrt(discriminant);
     if (discriminant > 0)
     {
         *x_fst = (-1 * b + discriminant_sqrt) / (2 * a);
         *x_snd = (-b - discriminant_sqrt) / (2 * a);
-        return two_rootes;
+        return TWO_ROOTS;
     }
     else if (discriminant == 0)
     {
         *x_fst = (-1 * b) / (2 * a);
-        return one_root;
+        return ONE_ROOT;
     }
     else
-        return no_rootes;
+        return NO_ROOTS;
 }
 
 bool triangle_check(double side_fst, double side_snd, double side_trd, double eps)
@@ -54,17 +54,17 @@ void solve_handler(double coef_fst, double coef_snd, double coef_trd, double *ro
     printf("%f is x^2 coef, %f is x coef, %f is free coef\n", coef_fst, coef_snd, coef_trd);
     switch (solve_equation(coef_fst, coef_snd, coef_trd, root_one, root_two))
     {
-    case two_rootes:
+    case TWO_ROOTS:
         printf("first root: %f\n", *root_one);
         printf("second root: %f\n", *root_two);
         break;
-    case one_root:
+    case ONE_ROOT:
         printf("root: %f\n", *root_one);
         break;
-    case no_rootes:
-        printf("no rootes\n");
+    case NO_ROOTS:
+        printf("no roots\n");
         break;
-    case invalid_param:
+    case INVALID_PARAM:
         printf("equation is not square\n");
         break;
     }

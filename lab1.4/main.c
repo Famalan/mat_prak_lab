@@ -2,65 +2,65 @@
 #include <stdlib.h>
 #include <string.h>
 
-void d_function(FILE *file1, FILE *file2)
+void d_function(FILE *input_file, FILE *output_file)
 {
-    char a = fgetc(file1);
-    while (a != EOF)
+    char character = fgetc(input_file);
+    while (character != EOF)
     {
-        if (a < '0' || a > '9')
-            fputc(a, file2);
-        a = fgetc(file1);
+        if (character < '0' || character > '9')
+            fputc(character, output_file);
+        character = fgetc(input_file);
     }
     return;
 }
 
-void i_function(FILE *file1, FILE *file2)
+void i_function(FILE *input_file, FILE *output_file)
 {
-    char a = fgetc(file1);
+    char character = fgetc(input_file);
     int letter_count = 0;
-    while (a != EOF)
+    while (character != EOF)
     {
-        while (a != EOF && a != '\n')
+        while (character != EOF && character != '\n')
         {
-            if (a >= 'A' && a <= 'Z' || a >= 'a' && a <= 'z')
+            if (character >= 'A' && character <= 'Z' || character >= 'a' && character <= 'z')
                 letter_count++;
-            a = fgetc(file1);
+            character = fgetc(input_file);
         }
-        fprintf(file2, "%d\n", letter_count);
+        fprintf(output_file, "%d\n", letter_count);
         letter_count = 0;
-        a = fgetc(file1);
+        character = fgetc(input_file);
     }
 }
 
-void s_function(FILE *file1, FILE *file2)
+void s_function(FILE *input_file, FILE *output_file)
 {
-    char a = fgetc(file1);
+    char character = fgetc(input_file);
     int symbols_count = 0;
-    while (a != EOF)
+    while (character != EOF)
     {
-        while (a != EOF && a != '\n')
+        while (character != EOF && character != '\n')
         {
-            if (!(a >= 'A' && a <= 'Z' || a >= 'a' && a <= 'z' || a == ' ' || a >= '0' && a <= '9'))
+            if (!(character >= 'A' && character <= 'Z' || character >= 'a' && character <= 'z' || character == ' ' || character >= '0' && character <= '9'))
                 symbols_count++;
-            a = fgetc(file1);
+            character = fgetc(input_file);
         }
-        fprintf(file2, "%d\n", symbols_count);
+        fprintf(output_file, "%d\n", symbols_count);
         symbols_count = 0;
-        a = fgetc(file1);
+        character = fgetc(input_file);
     }
 }
 
-void a_function(FILE *file1, FILE *file2)
+void a_function(FILE *input_file, FILE *output_file)
 {
-    char a = fgetc(file1);
-    int asci;
-    while (a != EOF)
+    char character = fgetc(input_file);
+    int ascii_value;
+    while (character != EOF)
     {
-        if (a < '0' || a > '9')
-            fprintf(file2, "%x", a);
+        if (character < '0' || character > '9')
+            fprintf(output_file, "%x", character);
         else
-            fputc(a, file2);
-        a = fgetc(file1);
+            fputc(character, output_file);
+        character = fgetc(input_file);
     }
 }
 
@@ -128,17 +128,17 @@ int main(int argc, char *argv[])
         printf("Wrong amount of arguments");
         return 1;
     }
-    FILE *file1 = fopen(argv[2], "r");
-    if (file1 == NULL)
+    FILE *input_file = fopen(argv[2], "r");
+    if (input_file == NULL)
     {
         printf("No such file or directory");
         return 3;
     }
-    FILE *file2;
+    FILE *output_file;
     if (argv[1][1] == 'n')
     {
-        file2 = fopen(argv[3], "w");
-        if (file2 == NULL)
+        output_file = fopen(argv[3], "w");
+        if (output_file == NULL)
         {
             printf("No such file or directory");
             return 3;
@@ -155,8 +155,8 @@ int main(int argc, char *argv[])
         }
         new_file(argv[2], filename, filename_length);
         printf("%c ", filename[1]);
-        file2 = fopen(filename, "w");
-        if (file2 == NULL)
+        output_file = fopen(filename, "w");
+        if (output_file == NULL)
         {
             printf("No such file or directory");
             return 3;
@@ -170,19 +170,19 @@ int main(int argc, char *argv[])
     switch (flag)
     {
     case 'd':
-        d_function(file1, file2);
+        d_function(input_file, output_file);
         break;
     case 'i':
-        i_function(file1, file2);
+        i_function(input_file, output_file);
         break;
     case 's':
-        s_function(file1, file2);
+        s_function(input_file, output_file);
         break;
     case 'a':
-        a_function(file1, file2);
+        a_function(input_file, output_file);
         break;
     }
-    fclose(file1);
-    fclose(file2);
+    fclose(input_file);
+    fclose(output_file);
     return 0;
 }

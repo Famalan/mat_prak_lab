@@ -182,7 +182,7 @@ enum status_code sum_d(double x, double eps, double *res)
 
 int main(int argc, char *argv[])
 {
-    double eps, x, res;
+    double eps, x, result;
 
     if (argc != 3)
     {
@@ -198,40 +198,40 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    switch (sum_a(x, eps, &res))
+    switch (sum_a(x, eps, &result))
     {
     case ok:
-        printf("sum a = %f\n", res);
+        printf("sum a = %f\n", result);
         break;
     case overflow:
         printf("overflow detected\n");
         break;
     }
 
-    switch (sum_b(x, eps, &res))
+    switch (sum_b(x, eps, &result))
     {
     case ok:
-        printf("sum b = %f\n", res);
+        printf("sum b = %f\n", result);
         break;
     case overflow:
         printf("overflow detected\n");
         break;
     }
 
-    switch (sum_c(x, eps, &res))
+    switch (sum_c(x, eps, &result))
     {
     case ok:
-        printf("sum c = %f\n", res);
+        printf("sum c = %f\n", result);
         break;
     case overflow:
         printf("overflow detected\n");
         break;
     }
 
-    switch (sum_d(x, eps, &res))
+    switch (sum_d(x, eps, &result))
     {
     case ok:
-        printf("sum d = %f\n", res);
+        printf("sum d = %f\n", result);
         break;
     case overflow:
         printf("overflow detected\n");
